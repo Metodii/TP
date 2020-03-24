@@ -1,0 +1,32 @@
+body {
+    padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+
+}
+.nav-item{
+    font-size: 20px;            
+}  
+.header{
+  text-align: center;
+}
+.image{
+  text-align: right;
+}
+
+.write{
+  text-align: left;
+}
+textarea{
+  resize: horizontal;
+  max-height: 52px;
+}
+.description{
+  text-align: left;
+}
+p{
+ font-size: 20px;
+}
+
