@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def homepage():
-    return render_template("Post.html")
+    return render_template("post.html")
 
 
 #@require_login
@@ -22,14 +22,14 @@ def homepage():
 
 def create_post():
     if request.method == "GET":
-        return render_template("Post.html")
+        return render_template("post.html")
     if request.method == "POST":
         post_data = request.form
-        # if post_data == None:
-        #     return "Bad request", 400
+        if post_data == None:
+            return "Bad request", 400
         print(post_data) 
-        values = (None, post_data["title"], post_data["image"], post_data["location_id"], 
-        post_data["size"], post_data["price"], post_data["bed_count"], post_data["description"])  
+        values = (None, post_data["title"], post_data["image"], post_data["size"], 
+        post_data["price"], post_data["bed_count"], post_data["location_id"], post_data["description"])  
         post = Post(*values)
         post.save()
         return redirect(url_for("create_post"))
