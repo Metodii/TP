@@ -6,14 +6,18 @@ from flask import Flask
 from flask import request, render_template, jsonify, redirect, url_for
 
 from post import Post
+from locations import Locations
 
 app = Flask(__name__)
-
-
+location_titles = ['Sofia', 'Bansko', 'Shumen',]
+Locations.drop()
+for title in location_titles:
+    location = Locations(*(None, title))
+    location.save()
 
 @app.route("/index.html")
 def homepage():
-    return render_template("index.html")
+    return render_template("index.html", posts=Post.all())
 
 
 #@require_login
@@ -23,7 +27,7 @@ def homepage():
 
 def create_post():
     if request.method == "GET":
-        return render_template("post.html")
+        return render_template("post.html", locations=Locations.all())
     if request.method == "POST":
         post_data = request.form
         if post_data == None:
