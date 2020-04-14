@@ -10,9 +10,10 @@ from post import Post
 app = Flask(__name__)
 
 
-@app.route("/")
+
+@app.route("/index.html")
 def homepage():
-    return render_template("post.html")
+    return render_template("index.html")
 
 
 #@require_login
