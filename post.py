@@ -1,5 +1,6 @@
 from DB import SQLite
 
+
 class Post(object):
 
     def __init__(self, post_id, title, image, size, price, bed_count, location_id, description):
@@ -10,15 +11,15 @@ class Post(object):
         self.price = price
         self.bed_count = bed_count
         self.location_id = location_id
-        self.description = description      
-        
+        self.description = description
+
     def save(self):
         with SQLite() as db:
             db.execute(
                 '''
                 INSERT INTO post 
                 VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)
-                ''',(
+                ''', (
                     self.title,
                     self.image,
                     self.size,
@@ -28,3 +29,8 @@ class Post(object):
                     self.description))
             return self
 
+    @staticmethod
+    def all():
+        with SQLite() as db:
+            rows = db.execute('SELECT * FROM post').fetchall()
+            return [Post(*row) for row in rows]
