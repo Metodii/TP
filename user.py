@@ -1,4 +1,4 @@
-from database import SQLite
+from DB import SQLite
 
 class User(object):
 
