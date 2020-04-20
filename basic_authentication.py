@@ -3,7 +3,7 @@ from functools import wraps
 from flask import request
 
 
-from model.user import User
+from user import User
 
 
 def get_password_hash(password):
