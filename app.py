@@ -6,7 +6,7 @@ from flask import Flask
 from flask import request, render_template, jsonify, redirect, url_for
 
 from post import Post
-from post import User
+from user import User
 from locations import Locations
 
 app = Flask(__name__)
