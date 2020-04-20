@@ -9,6 +9,8 @@ from post import Post
 from user import User
 from locations import Locations
 
+from basic_authentication import generate_password_hash, require_login, verify_password 
+
 app = Flask(__name__)
 location_titles = ['Sofia', 'Bansko', 'Shumen',]
 Locations.drop()
