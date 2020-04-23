@@ -6,7 +6,10 @@ from flask import Flask
 from flask import request, render_template, jsonify, redirect, url_for
 
 from post import Post
+from user import User
 from locations import Locations
+
+from basic_authentication import generate_password_hash, require_login, verify_password 
 
 app = Flask(__name__)
 location_titles = ['Sofia', 'Bansko', 'Shumen',]
@@ -19,13 +22,13 @@ for title in location_titles:
 def homepage():
     return render_template("index.html", posts=Post.all())
 
-
-#@require_login
-#def create_post(user_id):
+@app.route("/login.html")
+def login():
+    return render_template("login.html", posts=Post.all())
 
 @app.route("/create_post", methods = ["GET", "POST"])
-
-def create_post():
+@require_login
+def create_post(user_id):
     if request.method == "GET":
         return render_template("post.html", locations=Locations.all())
     if request.method == "POST":
