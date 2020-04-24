@@ -1,21 +1,26 @@
 from DB import SQLite
 
-class User(object):
-
-    def __init__(self, username, password, user_id=None):
-        self.id = user_id
-        self.username = username
+class User:
+    def __init__(self, user_id, email, password):
+        self.user_id = user_id
+        self.email = email
         self.password = password
 
-    def to_dict(self):
-        user_data = self.__dict__
-        del user_data["password"]
-        return user_data
-
-    def save(self):
+    def create(self):
         with SQLite() as db:
-            cursor = db.execute(self.__get_save_query())
-            self.id = cursor.lastrowid
-        return self
+            db.execute('''
+                INSERT INTO user (email, password)
+                VALUES (?, ?)''', (self.email, self.password))
+            return self
 
-    
+    @staticmethod
+    def find_by_email(email):
+        if not email:
+            return None
+        with SQLite() as db:
+            row = db.execute(
+                'SELECT * FROM user WHERE email = ?',
+                (email,)
+            ).fetchone()
+            if row:
+                return User(*row)

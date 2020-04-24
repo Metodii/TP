@@ -6,6 +6,16 @@ DB_NAME = "onlineBooking.db"
 conn = sqlite.connect(DB_NAME)
 
 conn.cursor().execute('''
+CREATE TABLE IF NOT EXISTS user
+    (
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL
+    )
+''')
+conn.commit()
+
+conn.cursor().execute('''
 CREATE TABLE IF NOT EXISTS post
     (
  
@@ -16,7 +26,9 @@ CREATE TABLE IF NOT EXISTS post
         price TEXT NOT NULL,
         bed_count TEXT NOT NULL,
 		location_id TEXT NOT NULL,
-		description TEXT NOT NULL
+		description TEXT NOT NULL,
+        user_id INTEGER,
+        FOREIGN KEY(user_id) REFERENCES user(user_id)
     )
 ''')
 conn.commit()
@@ -29,21 +41,6 @@ CREATE TABLE IF NOT EXISTS locations
     )
 ''')
 conn.commit()
-
-
-conn.cursor().execute('''
-CREATE TABLE IF NOT EXISTS user
-    (
-        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE,
-        address TEXT NOT NULL,
-        phone_number TEXT NOT NULL UNIQUE
-    )
-''')
-conn.commit()
-
 
 class SQLite(object):
     def __enter__(self):
