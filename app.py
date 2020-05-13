@@ -73,3 +73,8 @@ def create_post(user):
         post = Post(*values)
         post.save()
         return redirect(url_for("create_post"))
+
+@app.route("/view.html")
+def view_post():
+    return render_template("view.html", posts=Post.all())
+

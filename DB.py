@@ -18,7 +18,6 @@ conn.commit()
 conn.cursor().execute('''
 CREATE TABLE IF NOT EXISTS post
     (
- 
         post_id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,
         image BLOB NOT NULL,
