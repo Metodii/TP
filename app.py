@@ -1,6 +1,7 @@
 import json
 import uuid
 import sqlite3
+import uuid
 
 from flask import Flask
 from flask import request, render_template, jsonify, redirect, url_for
@@ -8,6 +9,7 @@ from flask import request, render_template, jsonify, redirect, url_for
 from post import Post
 from user import User
 from locations import Locations
+from werkzeug.utils import secure_filename
 
 from basic_authentication import (
     get_password_hash,
@@ -63,13 +65,18 @@ def create_post(user):
 
     if request.method == "GET":
         return render_template("post.html", locations=Locations.all(), user=user)
+
     if request.method == "POST":    
         post_data = request.form
         if post_data == None:
             return "Bad request", 400
-        print(post_data)
-        values = (None, post_data["title"], post_data["image"], post_data["size"],
-                  post_data["price"], post_data["bed_count"], post_data["location_id"], post_data["description"], user.user_id)
+
+        f = request.files['image']
+        filename = secure_filename(str(uuid.uuid1()))
+        f.save("static/images/submitted/{}".format(filename))
+
+        values = (None, post_data["title"], filename, post_data["size"], post_data["price"], post_data["bed_count"],
+        post_data["location_id"], post_data["available_from"], post_data["available_to"], post_data["description"], user.user_id)
         post = Post(*values)
         post.save()
         return redirect(url_for("create_post"))
@@ -77,4 +84,3 @@ def create_post(user):
 @app.route("/view.html")
 def view_post():
     return render_template("view.html", posts=Post.all())
-

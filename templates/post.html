@@ -80,7 +80,7 @@
   </div>
   <div class="row">
     <div class="col-md-8 order-md-1">
-      <form action="/create_post" method="POST">
+      <form action="/create_post" method="POST" enctype = "multipart/form-data">
         <div class="row">
           <div class="col-md-6 mb-3">
             <h4 class="mb-3">Location name</h4>
@@ -120,6 +120,15 @@
               <option>{{ location.title }}</option>
               {% endfor %}
             </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <h5 class="mb-3">Available</h5>
+            <label for="available_from">From:</label>
+            <input type="date" class="form-control" id="available_from" name="available_from">
+            <label for="available_to">To:</label>
+            <input type="date" class="form-control" id="available_to" name="available_to">
           </div>
         </div>
         <div class="row">

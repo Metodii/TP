@@ -3,7 +3,7 @@ from DB import SQLite
 
 class Post(object):
 
-    def __init__(self, post_id, title, image, size, price, bed_count, location_id, description, user_id):
+    def __init__(self, post_id, title, image, size, price, bed_count, location_id, available_from, available_to, description, user_id):
         self.post_id = post_id
         self.title = title
         self.image = image
@@ -11,6 +11,8 @@ class Post(object):
         self.price = price
         self.bed_count = bed_count
         self.location_id = location_id
+        self.available_from = available_from
+        self.available_to = available_to
         self.description = description
         self.user_id = user_id
 
@@ -19,7 +21,7 @@ class Post(object):
             db.execute(
                 '''
                 INSERT INTO post 
-                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (
                     self.title,
                     self.image,
@@ -27,6 +29,8 @@ class Post(object):
                     self.price,
                     self.bed_count,
                     self.location_id,
+                    self.available_from,
+                    self.available_to,
                     self.description,
                     self.user_id))
             return self

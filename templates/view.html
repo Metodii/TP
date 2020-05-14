@@ -94,6 +94,7 @@
         <div class="jumbotron">
             <div class="container">
                 <h1 class="display-3">{{posts[(request.args.get('post') | int) - 1].title}}</h1>
+                <p>{{ posts[(request.args.get('post') | int) - 1].available_from }} - {{ posts[(request.args.get('post') | int) - 1].available_to }}</p>
             </div>
         </div>
         <div class="container">
