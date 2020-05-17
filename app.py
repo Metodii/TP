@@ -2,6 +2,7 @@ import json
 import uuid
 import sqlite3
 import uuid
+import datetime
 
 from flask import Flask
 from flask import request, render_template, jsonify, redirect, url_for
@@ -30,7 +31,7 @@ for title in location_titles:
 @app.route("/index.html")
 @require_login
 def homepage(user):
-    return render_template("index.html", posts=Post.all(), user=user)
+    return render_template("index.html", user=user)
 
 
 @app.route("/login.html", methods=["GET", "POST"])
@@ -84,3 +85,7 @@ def create_post(user):
 @app.route("/view.html")
 def view_post():
     return render_template("view.html", posts=Post.all())
+
+@app.route("/post_entries")
+def post_entries():
+    return render_template("post_entries.html", posts=Post.all(request.args.get('available_from'), request.args.get('available_to')))

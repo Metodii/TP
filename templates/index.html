@@ -73,7 +73,8 @@
     .jumbotron .container {
       max-width: 40rem;
     }
-    .image{
+
+    .image {
       max-width: 100%;
       max-height: 100%;
     }
@@ -93,6 +94,31 @@
   </style>
   <!-- Custom styles for this template -->
   <link href="album.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+  <script>
+    var available_from;
+    var available_to;
+
+    function setAvailableFrom(e) {
+      available_from = e.target.value;
+    }
+
+    function setAvailableTo(e) {
+      available_to = e.target.value;
+    }
+
+    function reloadPosts() {
+      $.ajax({
+        type: "GET",
+        url: "post_entries?available_from=" + available_from + "&available_to=" + available_to,
+        success: function (data) {
+          document.getElementById("posts_view").innerHTML = data;
+        },
+      });
+    }
+    reloadPosts()
+  </script>
 </head>
 
 <body>
@@ -127,38 +153,22 @@
       <div class="container">
         <h1>Current offers</h1>
         <p class="lead text-muted"></p>
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <h5 class="mb-3">Available</h5>
+              <label for="available_from">From:</label>
+              <input type="date" class="form-control" id="available_from" onchange="setAvailableFrom(event); reloadPosts()" name="available_from">
+              <label for="available_to">To:</label>
+              <input type="date" class="form-control" id="available_to" onchange="setAvailableTo(event); reloadPosts()"name="available_to">
+          </div>
+        </div>
 
     </section>
 
     <div class="album py-5 bg-light">
       <div class="container">
-        <div class="row">
-          {% for post in posts %}
-          <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100" height="80" xmlns="http://www.w3.org/2000/svg"
-                preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+        <div class="row" id="posts_view">
 
-                {% if post.image %}
-                  <img class="image" src="/static/images/submitted/{{post.image}}">
-                {% else %}
-                  <!-- <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text> -->
-                {% endif %}
-                
-              </svg>
-              <div class="card-body">
-                <h3>{{ post.title }}</h3>
-                <p>{{ post.available_from }} - {{ post.available_to }}</p>
-                <p>{{ post.description }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <a class="nav-link" href="view.html?post={{post.post_id}}">View <span class="sr-only">(current)</span></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}  
         </div>
       </div>
     </div>

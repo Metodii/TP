@@ -1,5 +1,5 @@
 from DB import SQLite
-
+import datetime
 
 class Post(object):
 
@@ -36,7 +36,18 @@ class Post(object):
             return self
 
     @staticmethod
-    def all():
+    def all(available_from=None, available_to=None):
         with SQLite() as db:
             rows = db.execute('SELECT * FROM post').fetchall()
-            return [Post(*row) for row in rows]
+            if available_from=="undefined":
+                available_from=None
+
+            if available_to=="undefined":
+                available_to=None
+
+            if not available_from or not available_to:
+                return [Post(*row) for row in rows]
+
+            return [Post(*row) for row in rows if (
+                datetime.datetime.strptime(row[7], "%Y-%m-%d").date() < datetime.datetime.strptime(available_from, "%Y-%m-%d").date() and
+                datetime.datetime.strptime(row[8], "%Y-%m-%d").date() > datetime.datetime.strptime(available_to, "%Y-%m-%d").date())]
