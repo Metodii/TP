@@ -49,5 +49,5 @@ class Post(object):
                 return [Post(*row) for row in rows]
 
             return [Post(*row) for row in rows if (
-                datetime.datetime.strptime(row[7], "%Y-%m-%d").date() < datetime.datetime.strptime(available_from, "%Y-%m-%d").date() and
-                datetime.datetime.strptime(row[8], "%Y-%m-%d").date() > datetime.datetime.strptime(available_to, "%Y-%m-%d").date())]
+                datetime.datetime.strptime(row[7], "%Y-%m-%d").date() <= datetime.datetime.strptime(available_from, "%Y-%m-%d").date() and
+                datetime.datetime.strptime(row[8], "%Y-%m-%d").date() >= datetime.datetime.strptime(available_to, "%Y-%m-%d").date())]
